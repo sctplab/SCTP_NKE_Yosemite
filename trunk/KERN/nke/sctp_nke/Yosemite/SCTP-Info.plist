@@ -29,7 +29,7 @@
 		<key>com.apple.kpi.unsupported</key>
 		<string>14.0.0</string>
 		<key>org.sctp.kpi.sctpsupport</key>
-		<string>14.0.0</string>
+		<string>13.0.0</string>
 	</dict>
 </dict>
 </plist>
