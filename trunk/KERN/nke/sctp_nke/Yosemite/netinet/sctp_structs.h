@@ -428,9 +428,7 @@ struct sctp_nets {
 	uint8_t rto_needed;
 #if defined(__FreeBSD__)
 	uint32_t flowid;
-#ifdef INVARIANTS
-	uint8_t flowidset;
-#endif
+	uint8_t flowtype;
 #endif
 };
 
