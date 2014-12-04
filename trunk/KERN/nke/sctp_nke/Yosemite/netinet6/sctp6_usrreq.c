@@ -260,12 +260,6 @@ sctp6_input(struct mbuf **i_pak, int *offp, int proto)
 		goto out;
 	}
 #endif
-#ifdef __FreeBSD__
-	if (faithprefix_p != NULL && (*faithprefix_p) (&dst.sin6_addr)) {
-		/* XXX send icmp6 host/port unreach? */
-		goto out;
-	}
-#endif
 #if defined(__APPLE__)
 #if defined(NFAITH) && 0 < NFAITH
 	if (faithprefix(&dst.sin6_addr)) {
