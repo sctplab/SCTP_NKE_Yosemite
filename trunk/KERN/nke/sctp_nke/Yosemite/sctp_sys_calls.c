@@ -32,7 +32,7 @@
 
 #ifdef __FreeBSD__
 #include <sys/cdefs.h>
-__FBSDID("$FreeBSD: head/lib/libc/net/sctp_sys_calls.c 269945 2014-08-13 15:50:16Z tuexen $");
+__FBSDID("$FreeBSD: head/lib/libc/net/sctp_sys_calls.c 275682 2014-12-10 14:50:57Z tuexen $");
 #endif
 
 #include <stdio.h>
@@ -958,7 +958,7 @@ ssize_t sctp_recvv(int sd,
 	struct sctp_rcvinfo *rcvinfo;
 	struct sctp_nxtinfo *nxtinfo;
 
-	if (((info != NULL) && (infolen == NULL)) |
+	if (((info != NULL) && (infolen == NULL)) ||
 	    ((info == NULL) && (infolen != NULL) && (*infolen != 0)) ||
 	    ((info != NULL) && (infotype == NULL))) {
 		errno = EINVAL;
