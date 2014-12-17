@@ -32,7 +32,7 @@
 
 #ifdef __FreeBSD__
 #include <sys/cdefs.h>
-__FBSDID("$FreeBSD: head/lib/libc/net/sctp_sys_calls.c 275682 2014-12-10 14:50:57Z tuexen $");
+__FBSDID("$FreeBSD: head/lib/libc/net/sctp_sys_calls.c 275857 2014-12-17 07:47:25Z tuexen $");
 #endif
 
 #include <stdio.h>
@@ -670,6 +670,7 @@ sctp_sendmsg(int s,
 	msg.msg_iovlen = 1;
 	msg.msg_control = cmsgbuf;
 	msg.msg_controllen = CMSG_SPACE(sizeof(struct sctp_sndrcvinfo));
+	msg.msg_flags = 0;
 	cmsg = (struct cmsghdr *)cmsgbuf;
 	cmsg->cmsg_level = IPPROTO_SCTP;
 	cmsg->cmsg_type = SCTP_SNDRCV;
@@ -736,6 +737,7 @@ sctp_send(int sd, const void *data, size_t len,
 	msg.msg_iovlen = 1;
 	msg.msg_control = cmsgbuf;
 	msg.msg_controllen = CMSG_SPACE(sizeof(struct sctp_sndrcvinfo));
+	msg.msg_flags = 0;
 	cmsg = (struct cmsghdr *)cmsgbuf;
 	cmsg->cmsg_level = IPPROTO_SCTP;
 	cmsg->cmsg_type = SCTP_SNDRCV;
@@ -893,7 +895,6 @@ sctp_recvmsg(int s,
 		errno = EINVAL;
 		return (-1);
 	}
-	msg.msg_flags = 0;
 	iov.iov_base = dbuf;
 	iov.iov_len = len;
 	msg.msg_name = (caddr_t)from;
@@ -905,6 +906,7 @@ sctp_recvmsg(int s,
 	msg.msg_iovlen = 1;
 	msg.msg_control = cmsgbuf;
 	msg.msg_controllen = sizeof(cmsgbuf);
+	msg.msg_flags = 0;
 	sz = recvmsg(s, &msg, *msg_flags);
 	*msg_flags = msg.msg_flags;
 	if (sz <= 0) {
@@ -977,6 +979,7 @@ ssize_t sctp_recvv(int sd,
 	msg.msg_iovlen = iovlen;
 	msg.msg_control = cmsgbuf;
 	msg.msg_controllen = sizeof(cmsgbuf);
+	msg.msg_flags = 0;
 	ret = recvmsg(sd, &msg, *flags);
 	*flags = msg.msg_flags;
 	if ((ret > 0) &&
