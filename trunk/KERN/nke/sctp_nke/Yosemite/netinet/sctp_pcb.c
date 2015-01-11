@@ -1689,10 +1689,7 @@ sctp_findassociation_ep_addr(struct sctp_inpcb **inp_p, struct sockaddr *remote,
 			goto null_return;
 		}
 		head = &inp->sctp_tcbhash[SCTP_PCBHASH_ALLADDR(rport,
-		    inp->sctp_hashmark)];
-		if (head == NULL) {
-			goto null_return;
-		}
+		                                               inp->sctp_hashmark)];
 		LIST_FOREACH(stcb, head, sctp_tcbhash) {
 			if (stcb->rport != rport) {
 				/* remote port does not match */
