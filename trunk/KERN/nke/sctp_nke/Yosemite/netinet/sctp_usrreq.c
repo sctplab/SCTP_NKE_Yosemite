@@ -5524,7 +5524,6 @@ sctp_setopt(struct socket *so, int optname, void *optval, size_t optsize,
 	case SCTP_CONNECT_X_COMPLETE:
 	{
 		struct sockaddr *sa;
-		struct sctp_nets *net;
 
 		/* FIXME MT: check correct? */
 		SCTP_CHECK_AND_CAST(sa, optval, struct sockaddr, optsize);
@@ -5535,7 +5534,6 @@ sctp_setopt(struct socket *so, int optname, void *optval, size_t optsize,
 			stcb = LIST_FIRST(&inp->sctp_asoc_list);
 			if (stcb) {
 				SCTP_TCB_LOCK(stcb);
-				net = sctp_findnet(stcb, sa);
 			}
 			SCTP_INP_RUNLOCK(inp);
 		} else {
@@ -5544,7 +5542,7 @@ sctp_setopt(struct socket *so, int optname, void *optval, size_t optsize,
 			 * tcb (last argument) is NOT a TCB.. aka NULL.
 			 */
 			SCTP_INP_INCR_REF(inp);
-			stcb = sctp_findassociation_ep_addr(&inp, sa, &net, NULL, NULL);
+			stcb = sctp_findassociation_ep_addr(&inp, sa, NULL, NULL, NULL);
 			if (stcb == NULL) {
 				SCTP_INP_DECR_REF(inp);
 			}
