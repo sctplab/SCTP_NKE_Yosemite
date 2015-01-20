@@ -706,8 +706,12 @@ sctp_sysctl_handle_udp_tunneling(SYSCTL_HANDLER_ARGS)
 		sctp_over_udp_restart();
 		SCTP_INP_INFO_WUNLOCK();
 #else
+#if (SCTPCTL_UDP_TUNNELING_PORT_MIN == 0)
+		if (new > SCTPCTL_UDP_TUNNELING_PORT_MAX) {
+#else
 		if ((new < SCTPCTL_UDP_TUNNELING_PORT_MIN) ||
 		    (new > SCTPCTL_UDP_TUNNELING_PORT_MAX)) {
+#endif
 			error = EINVAL;
 		} else {
 			SCTP_INP_INFO_WLOCK();
@@ -787,9 +791,14 @@ sctp_sysctl_handle_auth(SYSCTL_HANDLER_ARGS)
 #else
 	    (req->newptr != NULL)) {
 #endif
+#if (SCTPCTL_AUTH_ENABLE_MIN == 0)
+		if ((new > SCTPCTL_AUTH_ENABLE_MAX) ||
+		    ((new == 0) && (SCTP_BASE_SYSCTL(sctp_asconf_enable) == 1))) {
+#else
 		if ((new < SCTPCTL_AUTH_ENABLE_MIN) ||
 		    (new > SCTPCTL_AUTH_ENABLE_MAX) ||
 		    ((new == 0) && (SCTP_BASE_SYSCTL(sctp_asconf_enable) == 1))) {
+#endif
 			error = EINVAL;
 		} else {
 			SCTP_BASE_SYSCTL(sctp_auth_enable) = new;
@@ -827,9 +836,14 @@ sctp_sysctl_handle_asconf(SYSCTL_HANDLER_ARGS)
 #else
 	    (req->newptr != NULL)) {
 #endif
+#if (SCTPCTL_ASCONF_ENABLE_MIN == 0)
+		if ((new > SCTPCTL_ASCONF_ENABLE_MAX) ||
+		    ((new == 1) && (SCTP_BASE_SYSCTL(sctp_auth_enable) == 0))) {
+#else
 		if ((new < SCTPCTL_ASCONF_ENABLE_MIN) ||
 		    (new > SCTPCTL_ASCONF_ENABLE_MAX) ||
 		    ((new == 1) && (SCTP_BASE_SYSCTL(sctp_auth_enable) == 0))) {
+#endif
 			error = EINVAL;
 		} else {
 			SCTP_BASE_SYSCTL(sctp_asconf_enable) = new;
