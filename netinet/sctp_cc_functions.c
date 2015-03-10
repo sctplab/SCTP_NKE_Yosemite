@@ -1336,7 +1336,6 @@ sctp_cwnd_update_after_packet_dropped(struct sctp_tcb *stcb,
 		net->cwnd = net->mtu;
 	}
 	sctp_enforce_cwnd_limit(&stcb->asoc, net);
-
 	if (net->cwnd - old_cwnd != 0) {
 		/* log only changes */
 #if defined(__FreeBSD__) && __FreeBSD_version >= 803000
