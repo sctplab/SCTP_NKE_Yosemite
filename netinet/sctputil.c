@@ -5352,7 +5352,7 @@ sctp_release_pr_sctp_chunk(struct sctp_tcb *stcb, struct sctp_tmit_chunk *tp1,
 #else
 				chk->rec.data.TSN_seq = stcb->asoc.sending_seq++;
 #endif
-				stcb->asoc.pr_sctp_cnt++;
+				strq->chunks_on_queues++;
 				TAILQ_INSERT_TAIL(&stcb->asoc.sent_queue, chk, sctp_next);
 				stcb->asoc.sent_queue_cnt++;
 				stcb->asoc.pr_sctp_cnt++;
