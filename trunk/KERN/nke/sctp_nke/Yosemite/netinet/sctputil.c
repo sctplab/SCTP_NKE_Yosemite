@@ -5342,11 +5342,7 @@ sctp_release_pr_sctp_chunk(struct sctp_tcb *stcb, struct sctp_tmit_chunk *tp1,
 				chk->rec.data.payloadtype = sp->ppid;
 				chk->rec.data.context = sp->context;
 				chk->flags = sp->act_flags;
-				if (sp->net)
-					chk->whoTo = sp->net;
-				else
-					chk->whoTo = stcb->asoc.primary_destination;
-				atomic_add_int(&chk->whoTo->ref_count, 1);
+				chk->whoTo = NULL;
 #if defined(__FreeBSD__) || defined(__Panda__)
 				chk->rec.data.TSN_seq = atomic_fetchadd_int(&stcb->asoc.sending_seq, 1);
 #else
