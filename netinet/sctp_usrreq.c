@@ -8096,7 +8096,7 @@ sctp_listen(struct socket *so, struct proc *p)
 				SCTP_INP_DECR_REF(tinp);
 				return (EADDRINUSE);
 			} else if (tinp) {
-				SCTP_INP_DECR_REF(inp);
+				SCTP_INP_DECR_REF(tinp);
 			}
 		}
 	}
