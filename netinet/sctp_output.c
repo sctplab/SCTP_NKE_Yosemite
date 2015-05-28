@@ -12731,9 +12731,7 @@ sctp_copy_one(struct sctp_stream_queue_pending *sp,
               struct uio *uio,
               int resv_upfront)
 {
-	int left;
 #if defined(__Panda__)
-	left = sp->length;
 	sp->data = m_uiotombuf(uio, M_WAITOK, sp->length,
 	                       resv_upfront, 0);
 	if (sp->data == NULL) {
@@ -12743,9 +12741,7 @@ sctp_copy_one(struct sctp_stream_queue_pending *sp,
 
 	sp->tail_mbuf = m_last(sp->data);
 	return (0);
-
 #elif defined(__FreeBSD__) && __FreeBSD_version > 602000
-	left = sp->length;
 	sp->data = m_uiotombuf(uio, M_WAITOK, sp->length,
 	                       resv_upfront, 0);
 	if (sp->data == NULL) {
@@ -12756,6 +12752,7 @@ sctp_copy_one(struct sctp_stream_queue_pending *sp,
 	sp->tail_mbuf = m_last(sp->data);
 	return (0);
 #else
+	int left;
 	int cancpy, willcpy, error;
 	struct mbuf *m, *head;
 	int cpsz = 0;
