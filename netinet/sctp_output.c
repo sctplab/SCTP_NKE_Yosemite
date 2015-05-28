@@ -4238,10 +4238,13 @@ sctp_lowlevel_chunk_output(struct sctp_inpcb *inp,
 		}
 #if defined(__FreeBSD__)
 		/* FreeBSD has a function for ip_id's */
-		ip->ip_id = ip_newid();
-#elif defined(RANDOM_IP_ID)
-		/* Apple has RANDOM_IP_ID switch */
-		ip->ip_id = htons(ip_randomid());
+		ip_fillid(ip);
+#elif defined(__APPLE__)
+#if RANDOM_IP_ID
+		ip->ip_id = ip_randomid();
+#else
+		ip->ip_id = htons(ip_id++);
+#endif
 #elif defined(__Userspace__)
                 ip->ip_id = htons(SCTP_IP_ID(inp)++);
 #else
@@ -11469,15 +11472,17 @@ sctp_send_resp_msg(struct sockaddr *src, struct sockaddr *dst,
 		ip->ip_hl = (sizeof(struct ip) >> 2);
 		ip->ip_tos = 0;
 #if defined(__FreeBSD__)
-		ip->ip_id = ip_newid();
+		ip_fillid(ip);
 #elif defined(__APPLE__)
 #if RANDOM_IP_ID
 		ip->ip_id = ip_randomid();
 #else
 		ip->ip_id = htons(ip_id++);
 #endif
-#else
+#elif defined(__Userspace__)
                 ip->ip_id = htons(ip_id++);
+#else
+		ip->ip_id = ip_id++;
 #endif
 		ip->ip_off = 0;
 		ip->ip_ttl = MODULE_GLOBAL(ip_defttl);
