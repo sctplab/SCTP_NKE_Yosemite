@@ -1639,7 +1639,7 @@ sctp_asconf_ack_clear(struct sctp_tcb *stcb SCTP_UNUSED)
 {
 	/* assume peer doesn't really know how to do asconfs */
 	/* XXX we could free the pending queue here */
-	
+
 }
 
 void
