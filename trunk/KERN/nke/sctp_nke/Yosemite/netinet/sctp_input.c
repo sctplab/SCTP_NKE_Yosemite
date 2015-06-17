@@ -6398,7 +6398,7 @@ sctp_input(i_pak, va_alist)
 extern int *sctp_cpuarry;
 #endif
 
-#if defined(__FreeBSD__) && __FreeBSD_version >= 1100020  
+#if defined(__FreeBSD__) && __FreeBSD_version >= 1100020
 int
 sctp_input(struct mbuf **mp, int *offp, int proto SCTP_UNUSED)
 {
@@ -6430,7 +6430,7 @@ sctp_input(struct mbuf *m, int off)
 			if (SCTP_BUF_LEN(m) < offset) {
 				if ((m = m_pullup(m, offset)) == NULL) {
 					SCTP_STAT_INCR(sctps_hdrops);
-#if defined(__FreeBSD__) && __FreeBSD_version >= 1100020  
+#if defined(__FreeBSD__) && __FreeBSD_version >= 1100020
 					return (IPPROTO_DONE);
 #else
 					return;
@@ -6446,7 +6446,7 @@ sctp_input(struct mbuf *m, int off)
 		}
 		cpu_to_use = sctp_cpuarry[flowid % mp_ncpus];
 		sctp_queue_to_mcore(m, off, cpu_to_use);
-#if defined(__FreeBSD__) && __FreeBSD_version >= 1100020  
+#if defined(__FreeBSD__) && __FreeBSD_version >= 1100020
 		return (IPPROTO_DONE);
 #else
 		return;
@@ -6454,7 +6454,7 @@ sctp_input(struct mbuf *m, int off)
 	}
 #endif
 	sctp_input_with_port(m, off, 0);
-#if defined(__FreeBSD__) && __FreeBSD_version >= 1100020  
+#if defined(__FreeBSD__) && __FreeBSD_version >= 1100020
 	return (IPPROTO_DONE);
 #endif
 }
