@@ -3470,7 +3470,7 @@ sctp_source_address_selection(struct sctp_inpcb *inp,
 		/*
 		 * Need a route to cache.
 		 */
-		SCTP_RTALLOC(ro, vrf_id);
+		SCTP_RTALLOC(ro, vrf_id, inp->fibnum);
 	}
 	if (ro->ro_rt == NULL) {
 		return (NULL);
@@ -4325,7 +4325,7 @@ sctp_lowlevel_chunk_output(struct sctp_inpcb *inp,
 				sctp_free_ifa(_lsrc);
 			} else {
 				ip->ip_src = over_addr->sin.sin_addr;
-				SCTP_RTALLOC(ro, vrf_id);
+				SCTP_RTALLOC(ro, vrf_id, inp->fibnum);
 			}
 		}
 		if (port) {
@@ -4728,7 +4728,7 @@ sctp_lowlevel_chunk_output(struct sctp_inpcb *inp,
 				sctp_free_ifa(_lsrc);
 			} else {
 				lsa6->sin6_addr = over_addr->sin6.sin6_addr;
-				SCTP_RTALLOC(ro, vrf_id);
+				SCTP_RTALLOC(ro, vrf_id, inp->fibnum);
 			}
 #ifdef SCTP_EMBEDDED_V6_SCOPE
 #ifdef SCTP_KAME
@@ -5877,7 +5877,7 @@ sctp_send_initiate_ack(struct sctp_inpcb *inp, struct sctp_tcb *stcb,
 		                             "Address added");
 		sctp_send_abort(init_pkt, iphlen, src, dst, sh, 0, op_err,
 #if defined(__FreeBSD__)
-		                mflowtype, mflowid, 0, /* XXX FIB */
+		                mflowtype, mflowid, inp->fibnum,
 #endif
 		                vrf_id, port);
 		return;
@@ -5898,7 +5898,7 @@ sctp_send_initiate_ack(struct sctp_inpcb *inp, struct sctp_tcb *stcb,
 		sctp_send_abort(init_pkt, iphlen, src, dst, sh,
 				init_chk->init.initiate_tag, op_err,
 #if defined(__FreeBSD__)
-		                mflowtype, mflowid, 0, /* XXX FIB */
+		                mflowtype, mflowid, inp->fibnum,
 #endif
 		                vrf_id, port);
 		return;

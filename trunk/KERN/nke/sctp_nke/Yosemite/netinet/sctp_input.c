@@ -207,7 +207,7 @@ sctp_handle_init(struct mbuf *m, int iphlen, int offset,
 			                             "No listener");
 			sctp_send_abort(m, iphlen, src, dst, sh, 0, op_err,
 #if defined(__FreeBSD__)
-			                mflowtype, mflowid, 0, /* XXX FIB */
+			                mflowtype, mflowid, inp->fibnum,
 #endif
 			                vrf_id, port);
 		}
@@ -1536,7 +1536,7 @@ sctp_process_cookie_existing(struct mbuf *m, int iphlen, int offset,
 		op_err = sctp_generate_cause(SCTP_CAUSE_COOKIE_IN_SHUTDOWN, "");
 		sctp_send_operr_to(src, dst, sh, cookie->peers_vtag, op_err,
 #if defined(__FreeBSD__)
-		                   mflowtype, mflowid, 0, /* XXX FIB */
+		                   mflowtype, mflowid, inp->fibnum,
 #endif
 		                   vrf_id, net->port);
 		if (how_indx < sizeof(asoc->cookie_how))
@@ -1746,7 +1746,7 @@ sctp_process_cookie_existing(struct mbuf *m, int iphlen, int offset,
 		op_err = sctp_generate_cause(SCTP_CAUSE_NAT_COLLIDING_STATE, "");
 		sctp_send_abort(m, iphlen,  src, dst, sh, 0, op_err,
 #if defined(__FreeBSD__)
-		                mflowtype, mflowid, 0, /* XXX FIB */
+		                mflowtype, mflowid, inp->fibnum,
 #endif
 		                vrf_id, port);
 		return (NULL);
@@ -2659,7 +2659,7 @@ sctp_handle_cookie_echo(struct mbuf *m, int iphlen, int offset,
 		scm->time_usec = htonl(tim);
 		sctp_send_operr_to(src, dst, sh, cookie->peers_vtag, op_err,
 #if defined(__FreeBSD__)
-		                   mflowtype, mflowid, 0, /* XXX FIB */
+		                   mflowtype, mflowid, l_inp->fibnum,
 #endif
 		                   vrf_id, port);
 		return (NULL);
@@ -2928,6 +2928,7 @@ sctp_handle_cookie_echo(struct mbuf *m, int iphlen, int offset,
 			inp->partial_delivery_point = (*inp_p)->partial_delivery_point;
 			inp->sctp_context = (*inp_p)->sctp_context;
 			inp->local_strreset_support = (*inp_p)->local_strreset_support;
+			inp->fibnum = (*inp_p)->fibnum;
 			inp->inp_starting_point_for_iterator = NULL;
 #if defined(__Userspace__)
 			inp->ulp_info = (*inp_p)->ulp_info;
@@ -4705,7 +4706,7 @@ sctp_process_control(struct mbuf *m, int iphlen, int *offset, int length,
 			/* no association, so it's out of the blue... */
 			sctp_handle_ootb(m, iphlen, *offset, src, dst, sh, inp, op_err,
 #if defined(__FreeBSD__)
-			                 mflowtype, mflowid, 0, /* XXX FIB */
+			                 mflowtype, mflowid, inp->fibnum,
 #endif
 					 vrf_id, port);
 			*offset = length;
@@ -5939,7 +5940,7 @@ sctp_common_input_processing(struct mbuf **mm, int iphlen, int offset, int lengt
 			                             msg);
 			sctp_handle_ootb(m, iphlen, offset, src, dst, sh, inp, op_err,
 #if defined(__FreeBSD__)
-			                 mflowtype, mflowid, 0, /* XXX FIB */
+			                 mflowtype, mflowid, inp->fibnum,
 #endif
 			                 vrf_id, port);
 			goto out;
@@ -6070,7 +6071,7 @@ sctp_common_input_processing(struct mbuf **mm, int iphlen, int offset, int lengt
 			                             msg);
 			sctp_handle_ootb(m, iphlen, offset, src, dst, sh, inp, op_err,
 #if defined(__FreeBSD__)
-			                 mflowtype, mflowid, 0, /* XXX FIB */
+			                 mflowtype, mflowid, ino->fibnum,
 #endif
 					 vrf_id, port);
 			goto out;
