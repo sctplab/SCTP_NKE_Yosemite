@@ -4075,7 +4075,7 @@ sctp_abort_association(struct sctp_inpcb *inp, struct sctp_tcb *stcb,
 	}
 	sctp_send_abort(m, iphlen, src, dst, sh, vtag, op_err,
 #if defined(__FreeBSD__)
-	                mflowtype, mflowid, 0, /* XXX FIB */
+	                mflowtype, mflowid, inp->fibnum,
 #endif
 	                vrf_id, port);
 	if (stcb != NULL) {
