@@ -6071,7 +6071,7 @@ sctp_common_input_processing(struct mbuf **mm, int iphlen, int offset, int lengt
 			                             msg);
 			sctp_handle_ootb(m, iphlen, offset, src, dst, sh, inp, op_err,
 #if defined(__FreeBSD__)
-			                 mflowtype, mflowid, ino->fibnum,
+			                 mflowtype, mflowid, inp->fibnum,
 #endif
 					 vrf_id, port);
 			goto out;
