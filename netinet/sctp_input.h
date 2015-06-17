@@ -48,7 +48,7 @@ sctp_common_input_processing(struct mbuf **, int, int, int,
 #endif
                              uint8_t,
 #if defined(__FreeBSD__)
-                             uint8_t, uint32_t,
+                             uint8_t, uint32_t, uint16_t,
 #endif
                              uint32_t, uint16_t);
 

@@ -206,7 +206,7 @@ void sctp_handle_ootb(struct mbuf *, int, int,
                       struct sctphdr *, struct sctp_inpcb *,
                       struct mbuf *,
 #if defined(__FreeBSD__)
-                      uint8_t, uint32_t,
+                      uint8_t, uint32_t, uint16_t,
 #endif
                       uint32_t, uint16_t);
 
