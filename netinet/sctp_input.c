@@ -2783,8 +2783,9 @@ sctp_handle_cookie_echo(struct mbuf *m, int iphlen, int offset,
 		return (NULL);
 	}
 #if defined(__FreeBSD__)
-	if ((*netp != NULL) && (mflowtype != M_HASHTYPE_NONE)) {
+	if (*netp != NULL) {
 		(*netp)->flowtype = mflowtype;
+		(*netp)->flowid = mflowid;
 	}
 #endif
 	/*
@@ -5816,8 +5817,9 @@ sctp_common_input_processing(struct mbuf **mm, int iphlen, int offset, int lengt
 			}
 #endif
 #if defined(__FreeBSD__)
-			if ((net != NULL) && (mflowtype != M_HASHTYPE_NONE)) {
+			if (net != NULL) {
 				net->flowtype = mflowtype;
+				net->flowid = mflowid;
 			}
 #endif
 			if ((inp != NULL) && (stcb != NULL)) {
@@ -5848,8 +5850,9 @@ sctp_common_input_processing(struct mbuf **mm, int iphlen, int offset, int lengt
 	}
 #endif
 #if defined(__FreeBSD__)
-	if ((net != NULL) && (mflowtype != M_HASHTYPE_NONE)) {
+	if (net != NULL) {
 		net->flowtype = mflowtype;
+		net->flowid = mflowid;
 	}
 #endif
 	if (inp == NULL) {
