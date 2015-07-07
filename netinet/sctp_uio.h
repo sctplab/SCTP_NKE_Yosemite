@@ -1279,12 +1279,14 @@ struct xsctp_raddr {
 #if __FreeBSD_version >= 800000
 	uint32_t rtt;
 	uint32_t heartbeat_interval;
-	uint32_t extra_padding[31];              /* future */
+	uint32_t ssthresh;
+	uint32_t extra_padding[30];              /* future */
 #endif
 #else
 	uint32_t rtt;
 	uint32_t heartbeat_interval;
-	uint32_t extra_padding[31];              /* future */
+	uint32_t ssthresh;
+	uint32_t extra_padding[30];              /* future */
 #endif
 };
 
