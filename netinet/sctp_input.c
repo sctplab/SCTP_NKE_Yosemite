@@ -6149,12 +6149,7 @@ sctp_common_input_processing(struct mbuf **mm, int iphlen, int offset, int lengt
 		}
 		/* plow through the data chunks while length > offset */
 		retval = sctp_process_data(mm, iphlen, &offset, length,
-		                           src, dst, sh,
-		                           inp, stcb, net, &high_tsn,
-#if defined(__FreeBSD__)
-		                           mflowtype, mflowid,
-#endif
-		                           vrf_id, port);
+		                           inp, stcb, net, &high_tsn);
 		if (retval == 2) {
 			/*
 			 * The association aborted, NO UNLOCK needed since

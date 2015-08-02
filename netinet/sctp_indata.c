@@ -2325,13 +2325,8 @@ sctp_service_queues(struct sctp_tcb *stcb, struct sctp_association *asoc)
 
 int
 sctp_process_data(struct mbuf **mm, int iphlen, int *offset, int length,
-                  struct sockaddr *src, struct sockaddr *dst,
-                  struct sctphdr *sh, struct sctp_inpcb *inp,
-                  struct sctp_tcb *stcb, struct sctp_nets *net, uint32_t *high_tsn,
-#if defined(__FreeBSD__)
-                  uint8_t mflowtype, uint32_t mflowid,
-#endif
-		  uint32_t vrf_id, uint16_t port)
+                  struct sctp_inpcb *inp, struct sctp_tcb *stcb,
+                  struct sctp_nets *net, uint32_t *high_tsn)
 {
 	struct sctp_data_chunk *ch, chunk_buf;
 	struct sctp_association *asoc;
@@ -2424,12 +2419,7 @@ sctp_process_data(struct mbuf **mm, int iphlen, int *offset, int length,
 				         chk_length);
 				op_err = sctp_generate_cause(SCTP_CAUSE_PROTOCOL_VIOLATION, msg);
 				stcb->sctp_ep->last_abort_code = SCTP_FROM_SCTP_INDATA + SCTP_LOC_21;
-				sctp_abort_association(inp, stcb, m, iphlen,
-				                       src, dst, sh, op_err,
-#if defined(__FreeBSD__)
-				                       mflowtype, mflowid,
-#endif
-				                       vrf_id, port);
+				sctp_abort_an_association(inp, stcb, op_err, SCTP_SO_NOT_LOCKED);
 				return (2);
 			}
 			if ((size_t)chk_length == sizeof(struct sctp_data_chunk)) {
@@ -2441,12 +2431,7 @@ sctp_process_data(struct mbuf **mm, int iphlen, int *offset, int length,
 
 				op_err = sctp_generate_no_user_data_cause(ch->dp.tsn);
 				stcb->sctp_ep->last_abort_code = SCTP_FROM_SCTP_INDATA + SCTP_LOC_22;
-				sctp_abort_association(inp, stcb, m, iphlen,
-				                       src, dst, sh, op_err,
-#if defined(__FreeBSD__)
-				                       mflowtype, mflowid,
-#endif
-				                       vrf_id, port);
+				sctp_abort_an_association(inp, stcb, op_err, SCTP_SO_NOT_LOCKED);
 				return (2);
 			}
 #ifdef SCTP_AUDITING_ENABLED
@@ -2513,14 +2498,7 @@ sctp_process_data(struct mbuf **mm, int iphlen, int *offset, int length,
 					snprintf(msg, sizeof(msg), "DATA chunk followed by chunk of type %2.2x",
 					         ch->ch.chunk_type);
 					op_err = sctp_generate_cause(SCTP_CAUSE_PROTOCOL_VIOLATION, msg);
-					sctp_abort_association(inp, stcb,
-					                       m, iphlen,
-					                       src, dst,
-					                       sh, op_err,
-#if defined(__FreeBSD__)
-					                       mflowtype, mflowid,
-#endif
-					                       vrf_id, port);
+					sctp_abort_an_association(inp, stcb, op_err, SCTP_SO_NOT_LOCKED);
 					return (2);
 				}
 				break;
