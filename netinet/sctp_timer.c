@@ -1513,6 +1513,8 @@ sctp_pathmtu_timer(struct sctp_inpcb *inp,
 #endif
 			if (mtu > next_mtu) {
 				net->mtu = next_mtu;
+			} else {
+				net->mtu = mtu;
 			}
 		}
 	}
