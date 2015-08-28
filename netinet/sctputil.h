@@ -66,6 +66,9 @@ sctp_log_trace(uint32_t fr, const char *str SCTP_UNUSED, uint32_t a, uint32_t b,
 /*
  * Function prototypes
  */
+int32_t
+sctp_map_assoc_state(int);
+
 uint32_t
 sctp_get_ifa_hash_val(struct sockaddr *addr);
 

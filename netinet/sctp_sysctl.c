@@ -555,7 +555,7 @@ sctp_sysctl_handle_assoclist(SYSCTL_HANDLER_ARGS)
 			if (stcb->asoc.primary_destination != NULL)
 				xstcb.primary_addr = stcb->asoc.primary_destination->ro._l_addr;
 			xstcb.heartbeat_interval = stcb->asoc.heart_beat_delay;
-			xstcb.state = SCTP_GET_STATE(&stcb->asoc);	/* FIXME */
+			xstcb.state = (uint32_t)sctp_map_assoc_state(stcb->asoc.state);
 #if defined(__FreeBSD__)
 #if __FreeBSD_version >= 800000
 			/* 7.0 does not support these */
