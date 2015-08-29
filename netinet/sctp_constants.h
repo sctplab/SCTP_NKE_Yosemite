@@ -628,10 +628,6 @@ extern void getwintimeofday(struct timeval *tv);
 /* 30 seconds + RTO (in ms) */
 #define SCTP_HB_DEFAULT_MSEC	30000
 
-/* Max time I will wait for Shutdown to complete */
-#define SCTP_DEF_MAX_SHUTDOWN_SEC 180
-
-
 /*
  * This is how long a secret lives, NOT how long a cookie lives how many
  * ticks the current secret will live.
