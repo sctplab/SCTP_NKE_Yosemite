@@ -5529,9 +5529,6 @@ sctp_process_control(struct mbuf *m, int iphlen, int *offset, int length,
 #endif
 				                       vrf_id, port);
 				*offset = length;
-				if (locked_tcb) {
-					SCTP_TCB_UNLOCK(locked_tcb);
-				}
 				return (NULL);
 			}
 			if ((stcb) && netp && *netp) {
