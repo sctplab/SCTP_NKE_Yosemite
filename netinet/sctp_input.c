@@ -4992,20 +4992,6 @@ sctp_process_control(struct mbuf *m, int iphlen, int *offset, int length,
 			break;
 		case SCTP_INITIATION_ACK:
 			SCTPDBG(SCTP_DEBUG_INPUT3, "SCTP_INIT-ACK\n");
-			/* This chunk must be the only chunk. */
-			if ((num_chunks > 1) ||
-			    (length - *offset > (int)SCTP_SIZE32(chk_length))) {
-				op_err = sctp_generate_cause(SCTP_CAUSE_PROTOCOL_VIOLATION,
-				                             "INIT-ACK not the only chunk");
-				sctp_abort_association(inp, stcb, m, iphlen,
-				                       src, dst, sh, op_err,
-#if defined(__FreeBSD__)
-				                       mflowtype, mflowid,
-#endif
-				                       vrf_id, port);
-				*offset = length;
-				return (NULL);
-			}
 			if (inp->sctp_flags & SCTP_PCB_FLAGS_SOCKET_GONE) {
 				/* We are not interested anymore */
 				if ((stcb) && (stcb->asoc.total_output_queue_size)) {
@@ -5033,6 +5019,15 @@ sctp_process_control(struct mbuf *m, int iphlen, int *offset, int length,
 					}
 					return (NULL);
 				}
+			}
+			/* The INIT-ACK chunk must be the only chunk. */
+			if ((num_chunks > 1) ||
+			    (length - *offset > (int)SCTP_SIZE32(chk_length))) {
+				*offset = length;
+				if (locked_tcb) {
+					SCTP_TCB_UNLOCK(locked_tcb);
+				}
+				return (NULL);
 			}
 			if ((netp) && (*netp)) {
 				ret = sctp_handle_init_ack(m, iphlen, *offset,
@@ -5514,18 +5509,13 @@ sctp_process_control(struct mbuf *m, int iphlen, int *offset, int length,
 			break;
 		case SCTP_SHUTDOWN_COMPLETE:
 			SCTPDBG(SCTP_DEBUG_INPUT3, "SCTP_SHUTDOWN-COMPLETE, stcb %p\n", (void *)stcb);
-			/* This chunk must be the only chunk. */
+			/* must be first and only chunk */
 			if ((num_chunks > 1) ||
 			    (length - *offset > (int)SCTP_SIZE32(chk_length))) {
-				op_err = sctp_generate_cause(SCTP_CAUSE_PROTOCOL_VIOLATION,
-				                             "SHUTDOWN-COMPLETE not the only chunk");
-				sctp_abort_association(inp, stcb, m, iphlen,
-				                       src, dst, sh, op_err,
-#if defined(__FreeBSD__)
-				                       mflowtype, mflowid,
-#endif
-				                       vrf_id, port);
 				*offset = length;
+				if (locked_tcb) {
+					SCTP_TCB_UNLOCK(locked_tcb);
+				}
 				return (NULL);
 			}
 			if ((stcb) && netp && *netp) {
