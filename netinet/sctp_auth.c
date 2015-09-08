@@ -1700,6 +1700,7 @@ sctp_handle_auth(struct sctp_tcb *stcb, struct sctp_auth_chunk *auth,
 			err->ph.param_type = htons(SCTP_CAUSE_UNSUPPORTED_HMACID);
 			err->ph.param_length = htons(sizeof(*err));
 			err->hmac_id = ntohs(hmac_id);
+			err->padding = htons(0);
 			SCTP_BUF_LEN(m_err) = sizeof(*err);
 			/* queue it */
 			sctp_queue_op_err(stcb, m_err);

@@ -71,6 +71,8 @@ extern void getwintimeofday(struct timeval *tv);
  */
 #define SCTP_LARGEST_INIT_ACCEPTED (65535 - 2048)
 
+/* Largest length of a chunk */
+#define SCTP_MAX_CHUNK_LENGTH 0xffff
 /* Number of addresses where we just skip the counting */
 #define SCTP_COUNT_LIMIT 40
 
