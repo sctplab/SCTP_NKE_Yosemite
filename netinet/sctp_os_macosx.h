@@ -519,11 +519,10 @@ void sctp_lock_assert(struct socket *so);
 void sctp_unlock_assert(struct socket *so);
 
 /* emulate the BSD 'ticks' clock */
-extern int ticks;
-#define SCTP_GET_CYCLECOUNT ticks;
+#if defined (SCTP_LOCAL_TRACE_BUF)
+#define SCTP_GET_CYCLECOUNT 0; /* XXX */
+#endif
 #define KTR_SUBSYS 1
-
-#define sctp_get_tick_count() (ticks)
 
 /* XXX: Hopefully temporary until APPLE changes to newer defs like other BSDs */
 #define if_addrlist	if_addrhead
