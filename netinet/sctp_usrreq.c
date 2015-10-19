@@ -32,7 +32,7 @@
 
 #ifdef __FreeBSD__
 #include <sys/cdefs.h>
-__FBSDID("$FreeBSD: head/sys/netinet/sctp_usrreq.c 287282 2015-08-29 09:14:32Z tuexen $");
+__FBSDID("$FreeBSD: head/sys/netinet/sctp_usrreq.c 289570 2015-10-19 11:17:54Z tuexen $");
 #endif
 
 #include <netinet/sctp_os.h>
@@ -6655,7 +6655,7 @@ sctp_setopt(struct socket *so, int optname, void *optval, size_t optsize,
 				LIST_FOREACH(laddr, &inp->sctp_addr_list, sctp_nxt_addr) {
 					if (laddr->ifa == NULL) {
 						SCTPDBG(SCTP_DEBUG_OUTPUT1, "%s: NULL ifa\n",
-							__FUNCTION__);
+							__func__);
 						continue;
 					}
 					if (laddr->ifa == ifa) {

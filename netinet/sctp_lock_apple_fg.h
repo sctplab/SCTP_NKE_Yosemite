@@ -51,7 +51,7 @@
 	SCTP_BASE_INFO(wq_addr_mtx) = lck_mtx_alloc_init(SCTP_MTX_GRP, SCTP_MTX_ATTR)
 #define SCTP_WQ_ADDR_DESTROY()  \
         lck_mtx_free(SCTP_BASE_INFO(wq_addr_mtx), SCTP_MTX_GRP)
-#define SCTP_WQ_ADDR_LOCK()	lck_mtx_lock(SCTP_BASE_INFO(wq_addr_mtx)) 
+#define SCTP_WQ_ADDR_LOCK()	lck_mtx_lock(SCTP_BASE_INFO(wq_addr_mtx))
 #define SCTP_WQ_ADDR_UNLOCK() lck_mtx_unlock(SCTP_BASE_INFO(wq_addr_mtx))
 
 /* Lock for INFO stuff */
@@ -219,7 +219,7 @@ do { \
 /***************BEGIN APPLE Tiger count stuff**********************/
 #define I_AM_HERE \
                 do { \
-			SCTP_PRINTF("%s:%d at %s\n", __FILE__, __LINE__ , __FUNCTION__); \
+			SCTP_PRINTF("%s:%d at %s\n", __FILE__, __LINE__ , __func__); \
 		} while (0)
 
 #define SAVE_I_AM_HERE(_inp) \
