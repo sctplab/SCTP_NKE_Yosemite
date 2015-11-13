@@ -6816,6 +6816,10 @@ sctp_pcb_init()
 #if defined(__Userspace_os_Windows)
 	InitializeConditionVariable(&sctp_it_ctl.iterator_wakeup);
 #else
+	pthread_mutexattr_init(&SCTP_BASE_VAR(mtx_attr));
+#ifdef INVARIANTS
+	pthread_mutexattr_settype(&SCTP_BASE_VAR(mtx_attr), PTHREAD_MUTEX_ERRORCHECK);
+#endif
 	(void)pthread_cond_init(&sctp_it_ctl.iterator_wakeup, NULL);
 #endif
 #endif
@@ -6867,7 +6871,7 @@ sctp_pcb_finish(void)
 	struct sctp_laddr *wi, *nwi;
 	int i;
 	struct sctp_iterator *it, *nit;
-	
+
 #if !defined(__FreeBSD__)
 	/* Notify the iterator to exit. */
 	SCTP_IPI_ITERATOR_WQ_LOCK();
@@ -6918,6 +6922,7 @@ sctp_pcb_finish(void)
 	DeleteConditionVariable(&sctp_it_ctl.iterator_wakeup);
 #else
 	pthread_cond_destroy(&sctp_it_ctl.iterator_wakeup);
+	pthread_mutexattr_destroy(&SCTP_BASE_VAR(mtx_attr));
 #endif
 #endif
 	/* In FreeBSD the iterator thread never exits
