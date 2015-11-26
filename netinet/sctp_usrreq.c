@@ -5433,7 +5433,7 @@ sctp_setopt(struct socket *so, int optname, void *optval, size_t optsize,
 		if (error == 0) {
 			sctp_chunk_output(inp, stcb, SCTP_OUTPUT_FROM_STRRST_REQ, SCTP_SO_LOCKED);
 		} else {
-			 /* 
+			 /*
 			  * For outgoing streams don't report any problems in
 			  * sending the request to the application.
 			  * XXX: Double check resetting incoming streams.
