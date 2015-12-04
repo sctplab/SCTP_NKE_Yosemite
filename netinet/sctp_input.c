@@ -3804,6 +3804,7 @@ sctp_handle_stream_reset_response(struct sctp_tcb *stcb,
 					sctp_ulp_notify(SCTP_NOTIFY_STR_RESET_DENIED_OUT, stcb, number_entries, req_out_param->list_of_streams, SCTP_SO_NOT_LOCKED);
 				} else if (action == SCTP_STREAM_RESET_RESULT_IN_PROGRESS) {
 					/* Set it up so we don't stop retransmitting */
+					asoc->stream_reset_outstanding++;
 					stcb->asoc.str_reset_seq_out--;
 					asoc->stream_reset_out_is_outstanding = 1;
 					no_clear = 1;
