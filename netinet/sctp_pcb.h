@@ -874,10 +874,5 @@ sctp_queue_to_mcore(struct mbuf *m, int off, int cpu_to_use);
 
 #endif
 
-#ifdef INVARIANTS
-void
-sctp_validate_no_locks(struct sctp_inpcb *inp);
-#endif
-
 #endif				/* _KERNEL */
 #endif				/* !__sctp_pcb_h__ */
