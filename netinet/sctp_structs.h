@@ -228,12 +228,20 @@ struct iterator_control {
 struct sctp_net_route {
 	sctp_rtentry_t *ro_rt;
 #if defined(__FreeBSD__)
+#if __FreeBSD_version < 1100093
 #if __FreeBSD_version >= 800000
 	void *ro_lle;
 #endif
 #if __FreeBSD_version >= 900000
 	void *ro_ia;
 	int ro_flags;
+#endif
+#else
+	char		*ro_prepend;
+	uint16_t	ro_plen;
+	uint16_t	ro_flags;
+	uint16_t	ro_mtu;
+	uint16_t	spare;
 #endif
 #endif
 #if defined(__APPLE__)
