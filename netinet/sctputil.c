@@ -2035,8 +2035,7 @@ out_decr:
 	}
 
 out_no_decr:
-	SCTPDBG(SCTP_DEBUG_TIMER1, "Timer now complete (type %d)\n",
-	        tmr->type);
+	SCTPDBG(SCTP_DEBUG_TIMER1, "Timer now complete\n");
 #if defined(__FreeBSD__) && __FreeBSD_version >= 801000
 	CURVNET_RESTORE();
 #endif
