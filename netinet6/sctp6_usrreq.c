@@ -571,7 +571,7 @@ sctp6_ctlinput(int cmd, struct sockaddr *pktdst, void *d)
 		if (ip6cp->ip6c_m == NULL)
 			return;
 
-		/* check if we can safely examine the SCTP header. */
+		/* Check if we can safely examine the SCTP header. */
 		if (ip6cp->ip6c_m->m_pkthdr.len < ip6cp->ip6c_off + sizeof(sh))
 			return;
 
