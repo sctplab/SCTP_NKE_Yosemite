@@ -5923,9 +5923,8 @@ sctp_send_initiate_ack(struct sctp_inpcb *inp, struct sctp_tcb *stcb,
 			/*
 			 * new addresses, out of here in non-cookie-wait states
 			 *
-			 * Send an ABORT, we don't add the new address error
-			 * cause though we even set the T bit and copy in the
-			 * 0 tag. This looks no different than if no listener
+			 * Send an ABORT, without the new address error cause.
+			 * This looks no different than if no listener
 			 * was present.
 			 */
 			op_err = sctp_generate_cause(SCTP_BASE_SYSCTL(sctp_diag_info_code),
@@ -5942,8 +5941,8 @@ sctp_send_initiate_ack(struct sctp_inpcb *inp, struct sctp_tcb *stcb,
 			 * change of remote encapsulation port, out of here in
 			 * non-cookie-wait states
 			 *
-			 * Send an ABORT, we even set the T bit and copy in the
-			 * 0 tag. This looks no different than if no listener
+			 * Send an ABORT, without an specific error cause.
+			 * This looks no different than if no listener
 			 * was present.
 			 */
 			op_err = sctp_generate_cause(SCTP_BASE_SYSCTL(sctp_diag_info_code),
